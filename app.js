@@ -2,6 +2,7 @@
 
 // core modules
 const adminRoutes = require("./routes/admin.routes"); //importing admin routes
+const mainRoutes = require("./routes/main.routes"); //importing main routes
 
 // third-party modules
 const express = require("express"); //importing express
@@ -23,8 +24,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// niddleware to use admin routes
-app.use("/admin", adminRoutes);
+// niddleware to use routes
+app.use(mainRoutes); //main routes
+app.use("/admin", adminRoutes); //admin routes
 
 // define port number
 const port = process.env.PORT || 3040;
