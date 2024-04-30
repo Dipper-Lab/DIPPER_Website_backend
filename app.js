@@ -6,9 +6,14 @@ const mainRoutes = require("./routes/main.routes"); //importing main routes
 
 // third-party modules
 const express = require("express"); //importing express
+const bodyParser = require("body-parser"); //importing body-parser
 
 // define app
 const app = express();
+
+// middleware to use body-parser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // middleware to handle cors errors
 app.use((req, res, next) => {

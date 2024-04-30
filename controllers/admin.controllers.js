@@ -3,10 +3,26 @@
 // local modules
 
 // third-party modules
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
 
 // post add member
 exports.postAddMember = async (req, res, next) => {
-  res.status(200).json({ message: "AddMembers" });
+  try {
+    const member = await prisma.member.create({
+      data: {
+        ...req.body,
+      },
+    });
+    res.status(200).json({
+      message: `${
+        member.fname + " " + member.lname
+      } has been successfully added as a member`,
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // patch update member
