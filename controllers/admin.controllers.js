@@ -21,13 +21,33 @@ exports.postAddMember = async (req, res, next) => {
       } has been successfully added as a member`,
     });
   } catch (err) {
+    res.status(422).json({ message: err });
     console.log(err);
   }
 };
 
 // patch update member
 exports.patchUpdateMember = async (req, res, next) => {
-  res.status(200).json({ message: "UpdateMember" });
+  try {
+    const id = req.params.id;
+    // update member by id
+    const updatedMember = await prisma.member.update({
+      where: {
+        id,
+      },
+      data: {
+        ...req.body,
+      },
+    });
+    res.status(200).json({
+      message: `${
+        updatedMember.fname + " " + updatedMember.lname
+      } has been successfully updated`,
+    });
+  } catch (err) {
+    res.status(404).json({ message: err });
+    console.log(err);
+  }
 };
 
 // delete member

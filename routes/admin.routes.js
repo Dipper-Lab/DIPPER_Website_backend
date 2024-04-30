@@ -13,7 +13,7 @@ const router = express.Router();
 router.post("/addmember", adminController.postAddMember);
 
 // patch update members
-router.patch("/updatemember", adminController.patchUpdateMember);
+router.patch("/updatemember/:id", adminController.patchUpdateMember);
 
 // delete members
 router.delete("/deletemember", adminController.deleteMember);
