@@ -52,7 +52,23 @@ exports.patchUpdateMember = async (req, res, next) => {
 
 // delete member
 exports.deleteMember = async (req, res, next) => {
-  res.status(200).json({ message: "DeleteMember" });
+  try {
+    const id = req.params.id;
+    // delete member by id
+    const deletedMember = await prisma.member.delete({
+      where: {
+        id,
+      },
+    });
+    res.status(200).json({
+      message: `${
+        deletedMember.fname + " " + deletedMember.lname
+      } has been successfully deleted}`,
+    });
+  } catch (err) {
+    res.status(404).json({ message: err });
+    console.log(err);
+  }
 };
 
 //post add publication

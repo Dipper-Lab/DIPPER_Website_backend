@@ -16,7 +16,7 @@ router.post("/addmember", adminController.postAddMember);
 router.patch("/updatemember/:id", adminController.patchUpdateMember);
 
 // delete members
-router.delete("/deletemember", adminController.deleteMember);
+router.delete("/deletemember/:id", adminController.deleteMember);
 
 // post add publications
 router.post("/addpublication", adminController.postAddpublication);
