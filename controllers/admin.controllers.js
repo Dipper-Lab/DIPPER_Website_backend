@@ -148,7 +148,32 @@ exports.deletepublication = async (req, res, next) => {
 
 // post add post project
 exports.postAddProject = async (req, res, next) => {
-  res.status(200).json({ message: "AddProject" });
+  try {
+    const projectData = {
+      title: req.body.title,
+      funding: req.body.funding,
+      currency: req.body.currency,
+      startDate: new Date(req.body.startDate),
+      endDate: new Date(req.body.endDate),
+      description: req.body.description,
+      image: req.body.image,
+    };
+    const project = await prisma.project.create({
+      data: {
+        ...projectData,
+        contributors: {
+          connect: req.body.contributors,
+        },
+        // sponsors: {
+        //   connect: req.body.sponsors,
+        // },
+      },
+    });
+    res.status(200).json({ message: `${project.title} added successfully` });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
 };
 
 // patch update post project
