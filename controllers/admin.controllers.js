@@ -264,7 +264,40 @@ exports.postAddEvent = async (req, res, next) => {
 
 // patch update post event
 exports.patchUpdateEvent = async (req, res, next) => {
-  res.status(200).json({ message: "UpdateEvent" });
+  try {
+    //update event by id
+    const id = req.params.id;
+    const updatedEventData = {
+      title: req.body.title,
+      location: req.body.location,
+      link: req.body.link,
+      date: new Date(req.body.date),
+      writeUp: req.body.writeUp,
+      // images: req.body.images,
+    };
+
+    // update event
+    const updatedEvent = await prisma.event.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updatedEventData,
+        speakers: {
+          set: req.body.speakers,
+        },
+        images: {
+          set: req.body.images,
+        },
+      },
+    });
+    res
+      .status(200)
+      .json({ message: `${updatedEvent.title} updated successfully` });
+  } catch (err) {
+    console.log(err);
+    res.status(304).json({ message: err });
+  }
 };
 
 // delete event

@@ -40,7 +40,7 @@ router.delete("/deleteproject/:id", adminController.deleteProject);
 router.post("/addevent", adminController.postAddEvent);
 
 // patch update event
-router.patch("/updateevent", adminController.patchUpdateEvent);
+router.patch("/updateevent/:id", adminController.patchUpdateEvent);
 
 // delete event
 router.delete("/deleteevent", adminController.deleteEvent);
