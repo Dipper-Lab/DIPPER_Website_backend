@@ -66,8 +66,7 @@ model Event {
   location String
   link     String
   date     DateTime
-  time     DateTime
   speakers Member[]
   writeUp  String
-  images   String
+  images   String[]
 }
