@@ -25,7 +25,7 @@ router.post("/addpublication", adminController.postAddpublication);
 router.patch("/updatepublication/:id", adminController.patchUpdatepublication);
 
 // delete publications
-router.delete("/deletepublication", adminController.deletepublication);
+router.delete("/deletepublication/:id", adminController.deletepublication);
 
 // post add projects
 router.post("/addproject", adminController.postAddProject);

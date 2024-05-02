@@ -118,20 +118,32 @@ exports.patchUpdatepublication = async (req, res, next) => {
           set: req.body.authors,
         },
       },
-      include: {
-        authors: true,
-      },
     });
 
     res
       .status(200)
       .json({ message: `${updatedpublication.title} updated successfully` });
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+    res.status(304).json({ message: err });
+  }
 };
 
 // delete publication
 exports.deletepublication = async (req, res, next) => {
-  res.status(200).json({ message: "DeletePublication" });
+  try {
+    const id = req.params.id;
+    // delete publication by id
+    const deletedpublication = await prisma.publication.delete({
+      where: {
+        id,
+      },
+    });
+    res.status(200).json({ message: `${deletedpublication.title} deleted` });
+  } catch (err) {
+    console.log(err);
+    res.status(304).json({ message: err });
+  }
 };
 
 // post add post project
