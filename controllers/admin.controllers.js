@@ -203,7 +203,24 @@ exports.deleteEvent = async (req, res, next) => {
 
 // post add sponsor
 exports.postAddSponsor = async (req, res, next) => {
-  res.status(200).json({ message: "AddSponsor" });
+  try {
+    const sponsorData = {
+      name: req.body.name,
+      image: req.body.image,
+    };
+    // create sponsor
+    const sponsor = await prisma.sponsor.create({
+      data: {
+        ...sponsorData,
+      },
+    });
+    res
+      .status(200)
+      .json({ message: `sponsor ${sponsor.name} added successfully` });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
 };
 
 // patch update sponsor
