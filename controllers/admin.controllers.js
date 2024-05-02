@@ -223,11 +223,9 @@ exports.deleteProject = async (req, res, next) => {
         id,
       },
     });
-    res
-      .status(200)
-      .json({
-        message: `Project ${deletedProject.title} deleted successfully`,
-      });
+    res.status(200).json({
+      message: `Project ${deletedProject.title} deleted successfully`,
+    });
   } catch (err) {
     console.log(err);
     res.status(404).json({ message: err });
@@ -236,7 +234,32 @@ exports.deleteProject = async (req, res, next) => {
 
 // post add post event
 exports.postAddEvent = async (req, res, next) => {
-  res.status(200).json({ message: "AddEvent" });
+  try {
+    // eventData object
+    const eventData = {
+      title: req.body.title,
+      location: req.body.location,
+      link: req.body.link,
+      date: new Date(req.body.date),
+      writeUp: req.body.writeUp,
+      images: req.body.images,
+    };
+
+    // create event
+    const event = await prisma.event.create({
+      data: {
+        ...eventData,
+        speakers: {
+          connect: req.body.speakers,
+        },
+      },
+    });
+
+    res.status(200).json({ message: `${event.title} added successfully` });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
 };
 
 // patch update post event
