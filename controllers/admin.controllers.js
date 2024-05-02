@@ -204,11 +204,9 @@ exports.patchUpdateProject = async (req, res, next) => {
         },
       },
     });
-    res
-      .status(200)
-      .json({
-        message: `Project ${updatedProject.title} updated successfully`,
-      });
+    res.status(200).json({
+      message: `Project ${updatedProject.title} updated successfully`,
+    });
   } catch (err) {
     console.log(err);
     res.status(304).json({ message: err });
@@ -217,7 +215,23 @@ exports.patchUpdateProject = async (req, res, next) => {
 
 // delete project
 exports.deleteProject = async (req, res, next) => {
-  res.status(200).json({ message: "DeleteProject" });
+  try {
+    // delete project by id
+    const id = req.params.id;
+    const deletedProject = await prisma.project.delete({
+      where: {
+        id,
+      },
+    });
+    res
+      .status(200)
+      .json({
+        message: `Project ${deletedProject.title} deleted successfully`,
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ message: err });
+  }
 };
 
 // post add post event

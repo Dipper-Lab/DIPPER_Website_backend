@@ -34,7 +34,7 @@ router.post("/addproject", adminController.postAddProject);
 router.patch("/updateproject/:id", adminController.patchUpdateProject);
 
 // delete projects
-router.delete("/deleteproject", adminController.deleteProject);
+router.delete("/deleteproject/:id", adminController.deleteProject);
 
 // post add event
 router.post("/addevent", adminController.postAddEvent);
