@@ -178,7 +178,41 @@ exports.postAddProject = async (req, res, next) => {
 
 // patch update post project
 exports.patchUpdateProject = async (req, res, next) => {
-  res.status(200).json({ message: "UpdateProject" });
+  try {
+    //update project by id
+    const id = req.params.id;
+    const updatedProjectData = {
+      title: req.body.title,
+      funding: req.body.funding,
+      currency: req.body.currency,
+      startDate: new Date(req.body.startDate),
+      endDate: new Date(req.body.endDate),
+      description: req.body.description,
+      image: req.body.image,
+    };
+    const updatedProject = await prisma.project.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updatedProjectData,
+        contributors: {
+          set: req.body.contributors,
+        },
+        sponsors: {
+          set: req.body.sponsors,
+        },
+      },
+    });
+    res
+      .status(200)
+      .json({
+        message: `Project ${updatedProject.title} updated successfully`,
+      });
+  } catch (err) {
+    console.log(err);
+    res.status(304).json({ message: err });
+  }
 };
 
 // delete project

@@ -31,7 +31,7 @@ router.delete("/deletepublication/:id", adminController.deletepublication);
 router.post("/addproject", adminController.postAddProject);
 
 // patch update projects
-router.patch("/updateproject", adminController.patchUpdateProject);
+router.patch("/updateproject/:id", adminController.patchUpdateProject);
 
 // delete projects
 router.delete("/deleteproject", adminController.deleteProject);
