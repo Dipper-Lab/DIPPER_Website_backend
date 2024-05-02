@@ -73,7 +73,30 @@ exports.deleteMember = async (req, res, next) => {
 
 //post add publication
 exports.postAddpublication = async (req, res, next) => {
-  res.status(200).json({ message: "AddPublication" });
+  try {
+    const title = req.body.title;
+    const authors = req.body.authors;
+    const abstract = req.body.abstract;
+    const link = req.body.link;
+    const publicationDate = new Date(req.body.publicationDate);
+    const image = req.body.image;
+    const publication = await prisma.publication.create({
+      data: {
+        title,
+        authors: {
+          connect: authors,
+        },
+        abstract,
+        link,
+        publicationDate,
+        image,
+      },
+    });
+    res.status(200).json({ message: "Publication added successfully " });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ message: err });
+  }
 };
 
 // patch update publication
