@@ -164,9 +164,9 @@ exports.postAddProject = async (req, res, next) => {
         contributors: {
           connect: req.body.contributors,
         },
-        // sponsors: {
-        //   connect: req.body.sponsors,
-        // },
+        sponsors: {
+          connect: req.body.sponsors,
+        },
       },
     });
     res.status(200).json({ message: `${project.title} added successfully` });
