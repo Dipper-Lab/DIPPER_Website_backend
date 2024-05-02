@@ -22,7 +22,7 @@ router.delete("/deletemember/:id", adminController.deleteMember);
 router.post("/addpublication", adminController.postAddpublication);
 
 // patch update publications
-router.patch("/updatepublication", adminController.patchUpdatepublication);
+router.patch("/updatepublication/:id", adminController.patchUpdatepublication);
 
 // delete publications
 router.delete("/deletepublication", adminController.deletepublication);

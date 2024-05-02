@@ -74,22 +74,19 @@ exports.deleteMember = async (req, res, next) => {
 //post add publication
 exports.postAddpublication = async (req, res, next) => {
   try {
-    const title = req.body.title;
-    const authors = req.body.authors;
-    const abstract = req.body.abstract;
-    const link = req.body.link;
-    const publicationDate = new Date(req.body.publicationDate);
-    const image = req.body.image;
+    const publicationData = {
+      title: req.body.title,
+      abstract: req.body.abstract,
+      link: req.body.link,
+      publicationDate: new Date(req.body.publicationDate),
+      image: req.body.image,
+    };
     const publication = await prisma.publication.create({
       data: {
-        title,
+        ...publicationData,
         authors: {
-          connect: authors,
+          connect: req.body.authors,
         },
-        abstract,
-        link,
-        publicationDate,
-        image,
       },
     });
     res.status(200).json({ message: "Publication added successfully " });
@@ -101,7 +98,35 @@ exports.postAddpublication = async (req, res, next) => {
 
 // patch update publication
 exports.patchUpdatepublication = async (req, res, next) => {
-  res.status(200).json({ message: "UpdatePublication" });
+  try {
+    //update publication by id
+    const id = req.params.id;
+    const updatedPublicationData = {
+      title: req.body.title,
+      abstract: req.body.abstract,
+      link: req.body.link,
+      publicationDate: new Date(req.body.publicationDate),
+      image: req.body.image,
+    };
+    const updatedpublication = await prisma.publication.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updatedPublicationData,
+        authors: {
+          set: req.body.authors,
+        },
+      },
+      include: {
+        authors: true,
+      },
+    });
+
+    res
+      .status(200)
+      .json({ message: `${updatedpublication.title} updated successfully` });
+  } catch (err) {}
 };
 
 // delete publication
