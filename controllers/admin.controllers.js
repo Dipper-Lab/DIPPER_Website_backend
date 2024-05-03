@@ -379,5 +379,19 @@ exports.patchUpdateSponsor = async (req, res, next) => {
 
 // delete sponsor
 exports.deleteSponsor = async (req, res, next) => {
-  res.status(200).json({ message: "DeleteSponsor" });
+  try {
+    // delete sponsor by id
+    const id = req.params.id;
+    const deletedSponsor = await prisma.sponsor.delete({
+      where: {
+        id,
+      },
+    });
+    res
+      .status(200)
+      .json({ message: `Sponsor ${deletedSponsor.name} deleted successfully` });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ message: err });
+  }
 };
