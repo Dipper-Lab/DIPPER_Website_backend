@@ -43,7 +43,7 @@ router.post("/addevent", adminController.postAddEvent);
 router.patch("/updateevent/:id", adminController.patchUpdateEvent);
 
 // delete event
-router.delete("/deleteevent", adminController.deleteEvent);
+router.delete("/deleteevent/:id", adminController.deleteEvent);
 
 // post add sponsor
 router.post("/addsponsor", adminController.postAddSponsor);

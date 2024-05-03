@@ -80,6 +80,7 @@ exports.postAddpublication = async (req, res, next) => {
       link: req.body.link,
       publicationDate: new Date(req.body.publicationDate),
       image: req.body.image,
+      non_lab_authors: req.body.nonLabAuthors,
     };
     const publication = await prisma.publication.create({
       data: {
@@ -107,6 +108,7 @@ exports.patchUpdatepublication = async (req, res, next) => {
       link: req.body.link,
       publicationDate: new Date(req.body.publicationDate),
       image: req.body.image,
+      non_lab_authors: req.body.nonLabAuthors,
     };
     const updatedpublication = await prisma.publication.update({
       where: {
@@ -157,6 +159,7 @@ exports.postAddProject = async (req, res, next) => {
       endDate: new Date(req.body.endDate),
       description: req.body.description,
       image: req.body.image,
+      non_lab_contributors: req.body.nonLabContributors,
     };
     const project = await prisma.project.create({
       data: {
@@ -189,6 +192,7 @@ exports.patchUpdateProject = async (req, res, next) => {
       endDate: new Date(req.body.endDate),
       description: req.body.description,
       image: req.body.image,
+      non_lab_contributors: req.body.nonLabContributors,
     };
     const updatedProject = await prisma.project.update({
       where: {
@@ -243,6 +247,7 @@ exports.postAddEvent = async (req, res, next) => {
       date: new Date(req.body.date),
       writeUp: req.body.writeUp,
       images: req.body.images,
+      non_lab_speakers: req.body.nonLabSpeakers,
     };
 
     // create event
@@ -273,7 +278,7 @@ exports.patchUpdateEvent = async (req, res, next) => {
       link: req.body.link,
       date: new Date(req.body.date),
       writeUp: req.body.writeUp,
-      // images: req.body.images,
+      non_lab_speakers: req.body.nonLabSpeakers,
     };
 
     // update event
@@ -302,7 +307,21 @@ exports.patchUpdateEvent = async (req, res, next) => {
 
 // delete event
 exports.deleteEvent = async (req, res, next) => {
-  res.status(200).json({ message: "DeleteEvent" });
+  try {
+    // delete event by id
+    const id = req.params.id;
+    const deletedEvent = await prisma.event.delete({
+      where: {
+        id,
+      },
+    });
+    res
+      .status(200)
+      .json({ message: `${deletedEvent.title} deleted successfully` });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ message: err });
+  }
 };
 
 // post add sponsor
@@ -311,6 +330,7 @@ exports.postAddSponsor = async (req, res, next) => {
     const sponsorData = {
       name: req.body.name,
       image: req.body.image,
+      url: req.body.url,
     };
     // create sponsor
     const sponsor = await prisma.sponsor.create({
@@ -329,7 +349,14 @@ exports.postAddSponsor = async (req, res, next) => {
 
 // patch update sponsor
 exports.patchUpdateSponsor = async (req, res, next) => {
-  res.status(200).json({ message: "UpdateSponsor" });
+  try {
+    //update sponsor by id
+
+    res.status(200).json({ message: "UpdateSponsor" });
+  } catch (err) {
+    console.log(err);
+    res.status(304).json({ message: err });
+  }
 };
 
 // delete sponsor
