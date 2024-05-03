@@ -31,22 +31,24 @@ model Member {
 }
 
 model Project {
-  id           String    @id @default(uuid())
-  title        String
-  contributors Member[]
-  sponsors     Sponsor[]
-  funding      Float
-  currency     String
-  startDate    DateTime
-  endDate      DateTime
-  description  String
-  image        String
+  id                   String    @id @default(uuid())
+  title                String
+  contributors         Member[]
+  non_lab_contributors String[]
+  sponsors             Sponsor[]
+  funding              Float
+  currency             String
+  startDate            DateTime
+  endDate              DateTime
+  description          String
+  image                String
 }
 
 model Publication {
   id              String   @id @default(uuid())
   title           String
   authors         Member[]
+  non_lab_authors String[]
   link            String
   publicationDate DateTime
   abstract        String
@@ -57,16 +59,18 @@ model Sponsor {
   id       String    @id @default(uuid())
   name     String
   image    String
+  url      String
   projects Project[]
 }
 
 model Event {
-  id       String   @id @default(uuid())
-  title    String
-  location String
-  link     String
-  date     DateTime
-  speakers Member[]
-  writeUp  String
-  images   String[]
+  id               String   @id @default(uuid())
+  title            String
+  location         String
+  link             String
+  date             DateTime
+  speakers         Member[]
+  non_lab_speakers String[]
+  writeUp          String
+  images           String[]
 }
