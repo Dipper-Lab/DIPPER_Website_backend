@@ -351,8 +351,26 @@ exports.postAddSponsor = async (req, res, next) => {
 exports.patchUpdateSponsor = async (req, res, next) => {
   try {
     //update sponsor by id
+    const id = req.params.id;
 
-    res.status(200).json({ message: "UpdateSponsor" });
+    const updatedSponsorData = {
+      name: req.body.name,
+      image: req.body.image,
+      url: req.body.url,
+    };
+
+    // update sponsor
+    const updatedSponsor = await prisma.sponsor.update({
+      where: {
+        id,
+      },
+      data: {
+        ...updatedSponsorData,
+      },
+    });
+    res
+      .status(200)
+      .json({ message: `Sponsor ${updatedSponsor.name} updated successfully` });
   } catch (err) {
     console.log(err);
     res.status(304).json({ message: err });

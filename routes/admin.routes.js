@@ -49,7 +49,7 @@ router.delete("/deleteevent/:id", adminController.deleteEvent);
 router.post("/addsponsor", adminController.postAddSponsor);
 
 // patch update sponsor
-router.patch("/updatesponsor", adminController.patchUpdateSponsor);
+router.patch("/updatesponsor/:id", adminController.patchUpdateSponsor);
 
 // delete sponsor
 router.delete("/deletesponsor", adminController.deleteSponsor);
