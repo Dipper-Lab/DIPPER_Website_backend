@@ -74,3 +74,19 @@ model Event {
   writeUp          String
   images           String[]
 }
+
+model About {
+  id          String @id @default(uuid())
+  description String
+  mission     String
+  themes      Json[]
+  objectives  Json[]
+}
+
+model contact {
+  id       String @id @default(uuid())
+  phone    String
+  email    String
+  facebook String
+  twitter  String
+}
