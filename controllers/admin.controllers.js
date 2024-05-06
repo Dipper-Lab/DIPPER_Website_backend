@@ -395,3 +395,18 @@ exports.deleteSponsor = async (req, res, next) => {
     res.status(404).json({ message: err });
   }
 };
+
+// add about
+exports.postAddAbout = async (req, res, next) => {
+  try {
+    const about = await prisma.about.create({
+      data: {
+        ...req.body,
+      },
+    });
+    res.status(200).json({ message: `About added successfully` });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
+};

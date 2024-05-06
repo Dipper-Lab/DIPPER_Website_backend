@@ -54,5 +54,7 @@ router.patch("/updatesponsor/:id", adminController.patchUpdateSponsor);
 // delete sponsor
 router.delete("/deletesponsor/:id", adminController.deleteSponsor);
 
+router.post("/addabout", adminController.postAddAbout);
+
 // export router
 module.exports = router;
