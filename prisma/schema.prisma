@@ -54,6 +54,7 @@ model Publication {
   publicationDate DateTime
   abstract        String
   image           String
+  createdAt       DateTime
 }
 
 model Sponsor {
