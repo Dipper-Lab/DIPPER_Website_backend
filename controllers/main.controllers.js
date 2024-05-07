@@ -177,8 +177,15 @@ exports.getEvent = async (req, res, next) => {
 };
 
 // get about
-exports.getAbout = (req, res, next) => {
-  res.status(200).json({ message: "About" });
+exports.getAbout = async (req, res, next) => {
+  try {
+    //fetch about
+    const about = await prisma.about.findMany({});
+    res.status(200).json({ about: about[0] });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ err });
+  }
 };
 
 // get contact us
