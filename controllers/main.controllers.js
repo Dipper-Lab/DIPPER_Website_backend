@@ -81,9 +81,6 @@ exports.getPublications = async (req, res, next) => {
       orderBy: {
         createdAt: "asc",
       },
-      include: {
-        authors: true,
-      },
     });
     res.status(200).json({ publications: publicationsData });
   } catch (err) {
@@ -92,6 +89,24 @@ exports.getPublications = async (req, res, next) => {
   }
 };
 
+//get publication
+exports.getPublication = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const publicationData = await prisma.publication.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        authors: true,
+      },
+    });
+    res.status(200).json({ publication: publicationData });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
+};
 // get members
 exports.getMembers = (req, res, next) => {
   res.status(200).json({ message: "Members" });

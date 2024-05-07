@@ -21,6 +21,9 @@ router.get("/project/:id", mainController.getProject);
 // get publications
 router.get("/publications", mainController.getPublications);
 
+// get publication
+router.get("/publication/:id", mainController.getPublication);
+
 // get members
 router.get("/members", mainController.getMembers);
 
