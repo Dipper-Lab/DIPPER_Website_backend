@@ -81,6 +81,7 @@ exports.postAddpublication = async (req, res, next) => {
       publicationDate: new Date(req.body.publicationDate),
       image: req.body.image,
       non_lab_authors: req.body.nonLabAuthors,
+      createdAt: new Date(),
     };
     const publication = await prisma.publication.create({
       data: {
