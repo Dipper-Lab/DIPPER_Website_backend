@@ -44,7 +44,29 @@ exports.getProjects = async (req, res, next) => {
         createdAt: "asc",
       },
     });
-    res.status(200).json({ p: projectsData });
+    res.status(200).json({ projects: projectsData });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
+};
+
+//get project
+exports.getProject = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    //fetch project by id
+    const projectData = await prisma.project.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        contributors: true,
+        sponsors: true,
+      },
+    });
+
+    res.status(200).json({ project: projectData });
   } catch (err) {
     console.log(err);
     res.status(422).json({ message: err });

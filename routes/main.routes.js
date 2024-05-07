@@ -15,6 +15,9 @@ router.get("/", mainController.getHomePage);
 // get projects
 router.get("/projects", mainController.getProjects);
 
+//get project
+router.get("/project/:id", mainController.getProject);
+
 // get publications
 router.get("/publications", mainController.getPublications);
 
