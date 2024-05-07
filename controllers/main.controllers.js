@@ -36,8 +36,19 @@ exports.getHomePage = async (req, res, next) => {
 };
 
 // get projects
-exports.getProjects = (req, res, next) => {
-  res.status(200).json({ message: "Projects" });
+exports.getProjects = async (req, res, next) => {
+  try {
+    // fetch projects
+    const projectsData = await prisma.project.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+    res.status(200).json({ p: projectsData });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
 };
 
 // get publications
