@@ -74,8 +74,22 @@ exports.getProject = async (req, res, next) => {
 };
 
 // get publications
-exports.getPublications = (req, res, next) => {
-  res.status(200).json({ message: "Publications" });
+exports.getPublications = async (req, res, next) => {
+  try {
+    // fetch publications
+    const publicationsData = await prisma.publication.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+      include: {
+        authors: true,
+      },
+    });
+    res.status(200).json({ publications: publicationsData });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
 };
 
 // get members
