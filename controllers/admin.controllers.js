@@ -160,6 +160,7 @@ exports.postAddProject = async (req, res, next) => {
       description: req.body.description,
       image: req.body.image,
       non_lab_contributors: req.body.nonLabContributors,
+      createdAt: new Date(),
     };
     const project = await prisma.project.create({
       data: {
