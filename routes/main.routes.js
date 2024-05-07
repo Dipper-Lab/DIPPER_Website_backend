@@ -42,8 +42,5 @@ router.get("/about", mainController.getAbout);
 // get contact us
 router.get("/contact-us", mainController.getContactUs);
 
-// post contact us
-router.post("/contact-us", mainController.postContactUs);
-
 // export router
 module.exports = router;

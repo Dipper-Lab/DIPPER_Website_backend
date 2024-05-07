@@ -189,11 +189,13 @@ exports.getAbout = async (req, res, next) => {
 };
 
 // get contact us
-exports.getContactUs = (req, res, next) => {
-  res.status(200).json({ message: "ContactUs" });
-};
-
-// post contact us
-exports.postContactUs = (req, res, next) => {
-  res.status(200).json({ message: "ContactUs" });
+exports.getContactUs = async (req, res, next) => {
+  try {
+    //fetch contact us
+    const contactData = await prisma.contact.findMany({});
+    res.status(200).json({ contacts: contactData[0] });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ err });
+  }
 };
