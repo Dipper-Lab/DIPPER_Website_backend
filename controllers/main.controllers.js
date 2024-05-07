@@ -3,10 +3,36 @@
 // local modules
 
 // third-party modules
+const { PrismaClient } = require("@prisma/client"); //importing prisma client
+
+const prisma = new PrismaClient();
 
 // get home page
-exports.getHomePage = (req, res, next) => {
-  res.status(200).json({ message: "HomePage" });
+exports.getHomePage = async (req, res, next) => {
+  try {
+    // fetch about
+    const about = await prisma.about.findMany({});
+    //fetch events
+    const eventsData = await prisma.event.findMany({
+      orderBy: {
+        date: "asc",
+      },
+    });
+    //fetch sponsors
+    const sponsorsData = await prisma.sponsor.findMany({});
+
+    // extract about description
+    const aboutDescription = about[0].description;
+
+    res.status(200).json({
+      about: aboutDescription,
+      events: eventsData,
+      sponsors: sponsorsData,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
 };
 
 // get projects
