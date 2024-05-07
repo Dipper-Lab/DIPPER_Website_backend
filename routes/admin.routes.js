@@ -60,5 +60,8 @@ router.post("/addabout", adminController.postAddAbout);
 // patch update about
 router.patch("/updateabout/:id", adminController.patchUpdateAbout);
 
+// post contact
+router.post("/contact-us", adminController.postContact);
+
 // export router
 module.exports = router;

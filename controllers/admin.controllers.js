@@ -432,3 +432,23 @@ exports.patchUpdateAbout = async (req, res, next) => {
     res.status(304).json({ message: err });
   }
 };
+
+//post contact
+exports.postContact = async (req, res, next) => {
+  try {
+    //add contact details
+    const phone = req.body.phone.toString();
+    const contact = await prisma.contact.create({
+      data: {
+        phone: phone,
+        email: req.body.email,
+        facebook: req.body.facebook,
+        twitter: req.body.twitter,
+      },
+    });
+    res.status(200).json({ message: `Contact added successfully` });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
+};
