@@ -33,6 +33,9 @@ router.get("/member/:id", mainController.getMember);
 // get events
 router.get("/events", mainController.getEvents);
 
+//get event
+router.get("/event/:id", mainController.getEvent);
+
 // get about
 router.get("/about", mainController.getAbout);
 

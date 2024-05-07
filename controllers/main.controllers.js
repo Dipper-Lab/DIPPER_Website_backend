@@ -156,6 +156,26 @@ exports.getEvents = async (req, res, next) => {
   }
 };
 
+// get event
+exports.getEvent = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    //fetch event by id
+    const eventData = await prisma.event.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        speakers: true,
+      },
+    });
+    res.status(200).json({ event: eventData });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
+};
+
 // get about
 exports.getAbout = (req, res, next) => {
   res.status(200).json({ message: "About" });
