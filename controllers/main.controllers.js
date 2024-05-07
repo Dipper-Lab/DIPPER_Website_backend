@@ -119,6 +119,27 @@ exports.getMembers = async (req, res, next) => {
   }
 };
 
+//get member
+exports.getMember = async (req, res, next) => {
+  try {
+    //fetch member by id
+    const id = req.params.id;
+    const memberData = await prisma.member.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        projects: true,
+        publications: true,
+      },
+    });
+    res.status(200).json({ member: memberData });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
+};
+
 // get events
 exports.getEvents = (req, res, next) => {
   res.status(200).json({ message: "Events" });
