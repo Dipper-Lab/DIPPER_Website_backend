@@ -42,6 +42,7 @@ model Project {
   endDate              DateTime
   description          String
   image                String
+  createdAt            DateTime
 }
 
 model Publication {
