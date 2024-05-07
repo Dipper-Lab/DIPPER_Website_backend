@@ -410,3 +410,23 @@ exports.postAddAbout = async (req, res, next) => {
     res.status(422).json({ message: err });
   }
 };
+
+// update about
+exports.patchUpdateAbout = async (req, res, next) => {
+  try {
+    //update about by id
+    const id = req.params.id;
+    const updatedAbout = await prisma.about.update({
+      where: {
+        id,
+      },
+      data: {
+        ...req.body,
+      },
+    });
+    res.status(200).json({ message: `About updated successfully` });
+  } catch (err) {
+    console.log(err);
+    res.status(304).json({ message: err });
+  }
+};
