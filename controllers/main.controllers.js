@@ -108,8 +108,15 @@ exports.getPublication = async (req, res, next) => {
   }
 };
 // get members
-exports.getMembers = (req, res, next) => {
-  res.status(200).json({ message: "Members" });
+exports.getMembers = async (req, res, next) => {
+  try {
+    // fetch members
+    const membersData = await prisma.member.findMany({});
+    res.status(200).json({ members: membersData });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ message: err });
+  }
 };
 
 // get events
