@@ -10,9 +10,11 @@ const prisma = new PrismaClient();
 // post add member
 exports.postAddMember = async (req, res, next) => {
   try {
+    // create member
     const member = await prisma.member.create({
       data: {
         ...req.body,
+        image: req.file.path,
       },
     });
     res.status(200).json({
