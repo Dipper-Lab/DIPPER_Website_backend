@@ -22,7 +22,11 @@ router.post(
 );
 
 // patch update members
-router.patch("/updatemember/:id", adminController.patchUpdateMember);
+router.patch(
+  "/updatemember/:id",
+  upload.single("image"),
+  adminController.patchUpdateMember
+);
 
 // delete members
 router.delete("/deletemember/:id", adminController.deleteMember);
