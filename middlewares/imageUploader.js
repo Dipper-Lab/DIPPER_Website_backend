@@ -1,4 +1,5 @@
 const cloudinary = require("cloudinary").v2; //importing cloudinary
+const { Public } = require("@prisma/client/runtime/library");
 const { CloudinaryStorage } = require("multer-storage-cloudinary"); //importing cloudinary storage
 
 require("dotenv").config(); //import .env
@@ -16,6 +17,11 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "Dipper_Lab",
     allowedFormats: ["jpg", "png", "jpeg"],
+    unique_filename: false,
+    overwrite: true,
+    public_id: (req, file) => {
+      return `${file.originalname}`;
+    },
   },
 });
 
