@@ -1,16 +1,25 @@
 // core modules
 
 // local modules
-const adminController = require("../controllers/admin.controllers");
+const adminController = require("../controllers/admin.controllers"); //impporting admin controllers
+const { storage } = require("../middlewares/imageUploader"); //importing image uploader middleware
 
 // third-party modules
 const express = require("express"); //importing express
+const multer = require("multer"); //importing multer
 
 // define router
 const router = express.Router();
 
+//define multer
+const upload = multer({ storage });
+
 // post add members
-router.post("/addmember", adminController.postAddMember);
+router.post(
+  "/addmember",
+  upload.single("image"),
+  adminController.postAddMember
+);
 
 // patch update members
 router.patch("/updatemember/:id", adminController.patchUpdateMember);
