@@ -3,6 +3,7 @@
 // local modules
 const adminController = require("../controllers/admin.controllers"); //impporting admin controllers
 const { storage } = require("../middlewares/imageUploader"); //importing image uploader middleware
+const imageRemover = require("../middlewares/imageRemover"); //importing image remover middleware
 
 // third-party modules
 const express = require("express"); //importing express
@@ -29,7 +30,11 @@ router.patch(
 );
 
 // delete members
-router.delete("/deletemember/:id", adminController.deleteMember);
+router.delete(
+  "/deletemember/:id",
+  imageRemover.removeSingleImage,
+  adminController.deleteMember
+);
 
 // post add publications
 router.post("/addpublication", adminController.postAddpublication);
