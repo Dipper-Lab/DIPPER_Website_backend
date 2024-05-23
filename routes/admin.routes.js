@@ -44,7 +44,11 @@ router.post(
 );
 
 // patch update publications
-router.patch("/updatepublication/:id", adminController.patchUpdatepublication);
+router.patch(
+  "/updatepublication/:id",
+  upload.single("image"),
+  adminController.patchUpdatepublication
+);
 
 // delete publications
 router.delete("/deletepublication/:id", adminController.deletepublication);
