@@ -31,7 +31,7 @@ router.patch(
 
 // delete members
 router.delete(
-  "/deletemember/:id",
+  "/delete/:model/:id",
   imageRemover.removeSingleImage,
   adminController.deleteMember
 );
@@ -51,7 +51,11 @@ router.patch(
 );
 
 // delete publications
-router.delete("/deletepublication/:id", adminController.deletepublication);
+router.delete(
+  "/delete/:model/:id",
+  imageRemover.removeSingleImage,
+  adminController.deletepublication
+);
 
 // post add projects
 router.post("/addproject", adminController.postAddProject);
