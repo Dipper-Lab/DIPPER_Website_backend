@@ -11,9 +11,11 @@ const prisma = new PrismaClient();
 exports.removeSingleImage = async (req, res, next) => {
   //fetch image url of member by id
   try {
-    const imageUrl = await prisma.member.findUnique({
+    const { model, id } = req.params;
+    // fetch image url of table by id
+    const imageUrl = await prisma[model].findUnique({
       where: {
-        id: req.params.id,
+        id,
       },
       select: {
         image: true,
