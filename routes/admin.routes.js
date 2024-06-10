@@ -16,11 +16,7 @@ const router = express.Router();
 const upload = multer({ storage });
 
 // post add members
-router.post(
-  "/addmember",
-  upload.single("image"),
-  adminController.postAddMember
-);
+router.post("/addmember", adminController.postAddMember);
 
 // patch update members
 router.patch(

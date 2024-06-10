@@ -14,7 +14,6 @@ exports.postAddMember = async (req, res, next) => {
     const member = await prisma.member.create({
       data: {
         ...req.body,
-        image: req.file.path,
       },
     });
     res.status(200).json({
