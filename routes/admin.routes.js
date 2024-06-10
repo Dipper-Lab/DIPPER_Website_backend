@@ -29,11 +29,7 @@ router.delete(
 );
 
 // post add publications
-router.post(
-  "/addpublication",
-  upload.single("image"),
-  adminController.postAddpublication
-);
+router.post("/addpublication", adminController.postAddpublication);
 
 // patch update publications
 router.patch(

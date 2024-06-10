@@ -80,40 +80,16 @@ exports.postAddpublication = async (req, res, next) => {
       abstract: req.body.abstract,
       link: req.body.link,
       publicationDate: new Date(req.body.publicationDate),
-      image: req.file.path,
+      image: req.body.image,
       non_lab_authors: req.body.nonLabAuthors,
       createdAt: new Date(),
     };
-    //authors array of objects
-    const authors = [];
-    //if req.body.authors is an array
-    if (Array.isArray(req.body.authors) == true) {
-      for (let i in req.body.authors) {
-        //if the element in the array is a string then convert it to an object and push to authors array
-        if (typeof req.body.authors[i] == "string") {
-          authors.push(JSON.parse(req.body.authors[i]));
-        }
-        // if the element in the array is an object then push it to the authors array
-        else if (typeof req.body.authors[i] == "object") {
-          authors.push(req.body.authors[i]);
-        }
-      }
-    } else {
-      //if req.body.authors is a string convert to an object and push to authors array
-      if (typeof req.body.authors == "string") {
-        authors.push(JSON.parse(req.body.authors));
-      }
-      // if req.body.authors is an object then push it to the authors array
-      else if (typeof req.body.authors == "object") {
-        authors.push(req.body.authors);
-      }
-    }
     // create publication
     const publication = await prisma.publication.create({
       data: {
         ...publicationData,
         authors: {
-          connect: authors,
+          connect: req.body.authors,
         },
       },
     });
