@@ -19,11 +19,7 @@ const upload = multer({ storage });
 router.post("/addmember", adminController.postAddMember);
 
 // patch update members
-router.patch(
-  "/updatemember/:id",
-  upload.single("image"),
-  adminController.patchUpdateMember
-);
+router.patch("/updatemember/:id", adminController.patchUpdateMember);
 
 // delete members
 router.delete(

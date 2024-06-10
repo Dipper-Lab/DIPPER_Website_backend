@@ -38,7 +38,6 @@ exports.patchUpdateMember = async (req, res, next) => {
       },
       data: {
         ...req.body,
-        image: req.file.path,
       },
     });
     res.status(200).json({
