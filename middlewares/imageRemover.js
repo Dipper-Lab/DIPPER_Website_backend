@@ -39,3 +39,38 @@ exports.removeSingleImage = async (req, res, next) => {
     res.status(422).json({ message: err });
   }
 };
+
+// remove multiple images
+exports.removeMultipleImages = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    //array of image public ids
+    const imagePublicIds = [];
+    //get imageUrls
+    const imageUrls = await prisma.event.findUnique({
+      where: {
+        id,
+      },
+      select: {
+        images: true,
+      },
+    });
+
+    for (let imageUrl of imageUrls.images) {
+      //split image url into array elements at "/"
+      const imageUrlArray = imageUrl.split("/");
+      const imagePublicId = `${imageUrlArray[imageUrlArray.length - 2]}/${
+        imageUrlArray[imageUrlArray.length - 1]
+      }`;
+      // push imagePublicId to imagePublicIds
+      imagePublicIds.push(imagePublicId);
+    }
+    //delete from cloudinary
+    const del = await cloudinary.api.delete_resources(imagePublicIds, {
+      invalidate: true,
+    });
+    next();
+  } catch (err) {
+    res.status(400).json({ message: err });
+  }
+};
