@@ -3,6 +3,7 @@
 // core modules
 const adminRoutes = require("./routes/admin.routes"); //importing admin routes
 const mainRoutes = require("./routes/main.routes"); //importing main routes
+const authenticationRoutes = require("./routes/authentication.routes"); //importing authentication routes
 
 // third-party modules
 const express = require("express"); //importing express
@@ -29,9 +30,10 @@ app.use((req, res, next) => {
   next();
 });
 
-// niddleware to use routes
+// middleware to use routes
 app.use(mainRoutes); //main routes
 app.use("/admin", adminRoutes); //admin routes
+app.use("/authentication", authenticationRoutes);
 
 // define port number
 const port = process.env.PORT || 3040;
