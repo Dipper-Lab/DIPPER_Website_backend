@@ -1,5 +1,7 @@
 const { PrismaClient } = require("@prisma/client"); //importing prisma client
+const jwt = require("jsonwebtoken"); //importing jsonwebtoken
 const bcrypt = require("bcrypt"); //importing bcrypt
+require("dotenv").config(); //import .env
 
 const prisma = new PrismaClient();
 
@@ -18,6 +20,17 @@ exports.postRegister = async (req, res, next) => {
       if (match == email) {
         // hash password
         const hashedPassword = await bcrypt.hash(password, 10);
+        //create token
+        const token = jwt.sign(
+          {
+            email: email,
+            password: hashedPassword,
+          },
+          process.env.jwt_key,
+          {
+            expiresIn: "1d",
+          }
+        );
         // create admin
         const admin = await prisma.admin.create({
           data: {
@@ -25,7 +38,7 @@ exports.postRegister = async (req, res, next) => {
             password: hashedPassword,
           },
         });
-        res.status(200).json({ message: "Admin created successfully" });
+        res.status(200).json({ message: "Admin created successfully", token });
       } else {
         res.status(422).json({ message: "Invalid email format" });
       }
