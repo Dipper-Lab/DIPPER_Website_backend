@@ -92,3 +92,9 @@ model contact {
   facebook String
   twitter  String
 }
+
+model admin {
+  id       String @id @default(uuid())
+  email    String
+  password String
+}
