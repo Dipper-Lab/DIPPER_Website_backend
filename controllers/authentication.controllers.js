@@ -10,7 +10,7 @@ exports.postRegister = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     //check if there is an existing admin
-    const admins = await prisma.admin.findMany({});
+    const admins = await prisma.admin.findMany();
     if (admins.length > 0) {
       res.status(422).json({ message: "There is an existing admin" });
     } else {
