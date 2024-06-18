@@ -4,6 +4,7 @@
 const adminRoutes = require("./routes/admin.routes"); //importing admin routes
 const mainRoutes = require("./routes/main.routes"); //importing main routes
 const authenticationRoutes = require("./routes/authentication.routes"); //importing authentication routes
+const checkAuth = require("./middlewares/check-auth");
 
 // third-party modules
 const express = require("express"); //importing express
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
 
 // middleware to use routes
 app.use(mainRoutes); //main routes
-app.use("/admin", adminRoutes); //admin routes
+app.use("/admin", checkAuth.verifyToken, adminRoutes); //admin routes
 app.use("/authentication", authenticationRoutes);
 
 // define port number
