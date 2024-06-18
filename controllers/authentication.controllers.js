@@ -10,8 +10,8 @@ exports.postRegister = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     //check if there is an existing admin
-    const admin = await prisma.admin.findMany({});
-    if (admin.length > 0) {
+    const admins = await prisma.admin.findMany({});
+    if (admins.length > 0) {
       res.status(422).json({ message: "There is an existing admin" });
     } else {
       // check if email is of valid format
@@ -26,7 +26,7 @@ exports.postRegister = async (req, res, next) => {
             email: email,
             password: hashedPassword,
           },
-          process.env.jwt_key,
+          process.env.JWT_key,
           {
             expiresIn: "1d",
           }
@@ -74,7 +74,7 @@ exports.postLogin = async (req, res, next) => {
               email: email,
               password: admin[0].password,
             },
-            process.env.jwt_key,
+            process.env.JWT_key,
             {
               expiresIn: "1d",
             }
