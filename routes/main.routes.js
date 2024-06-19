@@ -42,5 +42,8 @@ router.get("/about", mainController.getAbout);
 // get contact us
 router.get("/contact-us", mainController.getContactUs);
 
+// get sponsors
+router.get("/sponsors", mainController.getSponsors);
+
 // export router
 module.exports = router;
