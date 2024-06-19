@@ -9,22 +9,28 @@ const prisma = new PrismaClient();
 exports.verifyToken = async (req, res, next) => {
   try {
     const token = req.headers.token;
-    // decode token
-    const decoded = jwt.verify(token, process.env.JWT_key);
-    //find admin by email
-    const admin = await prisma.admin.findMany({
-      where: {
-        email: decoded.email,
-      },
-    });
-    // compare admin data with token data
-    if (
-      admin[0].email === decoded.email &&
-      admin[0].password === decoded.password
-    ) {
-      next();
+    if (token) {
+      // decode token
+      const decoded = jwt.verify(token, process.env.JWT_key);
+      //find admin by email
+      const admin = await prisma.admin.findMany({
+        where: {
+          email: decoded.email,
+        },
+      });
+      // compare admin data with token data
+      if (
+        admin[0].email === decoded.email &&
+        admin[0].password === decoded.password
+      ) {
+        next();
+      } else {
+        res
+          .status(401)
+          .json({ message: "Authentication failed: Invalid token" });
+      }
     } else {
-      res.status(401).json({ message: "Authentication failed: Invalid token" });
+      res.status(401).json({ message: "Authentication failed: No token" });
     }
   } catch (err) {
     res.status(401).json({ message: "Authentication failed", err: err });
