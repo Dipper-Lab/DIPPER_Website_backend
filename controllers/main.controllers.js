@@ -199,3 +199,15 @@ exports.getContactUs = async (req, res, next) => {
     res.status(422).json({ err });
   }
 };
+
+// get sponsors
+exports.getSponsors = async (req, res, next) => {
+  try {
+    //fetch sponsors
+    const sponsorsData = await prisma.sponsor.findMany({});
+    res.status(200).json({ sponsors: sponsorsData });
+  } catch (err) {
+    console.log(err);
+    res.status(422).json({ err });
+  }
+};
