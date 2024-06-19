@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 //middleware to check admin token
 exports.verifyToken = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
+    const token = req.headers.token;
     // decode token
     const decoded = jwt.verify(token, process.env.JWT_key);
     //find admin by email
