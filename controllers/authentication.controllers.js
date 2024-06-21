@@ -133,7 +133,7 @@ exports.postForgotPassword = async (req, res, next) => {
         },
         process.env.JWT_key,
         {
-          expiresIn: "1h",
+          expiresIn: "20m",
         }
       );
       // reset password url
@@ -161,8 +161,28 @@ exports.postForgotPassword = async (req, res, next) => {
   }
 };
 
-//post reset password
-exports.postResetPassword = async (req, res, next) => {};
+//patch reset password
+exports.patchResetPassword = async (req, res, next) => {
+  try {
+    const { token, password } = req.body;
+    //verify token
+    const decoded = jwt.verify(token, process.env.JWT_key);
+    //hash new password
+    const hashedPassword = await bcrypt.hash(password, 12);
+    //find and update admin password by id
+    const admin = await prisma.admin.update({
+      where: {
+        id: decoded.id,
+      },
+      data: {
+        password: hashedPassword,
+      },
+    });
+    res.status(200).json({ message: "password reset successfully" });
+  } catch (err) {
+    res.status(422).json({ message: "password could not be reset", err });
+  }
+};
 
 //post change password
 exports.postChangePassword = async (req, res, next) => {};
