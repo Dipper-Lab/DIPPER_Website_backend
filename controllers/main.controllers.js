@@ -148,6 +148,9 @@ exports.getEvents = async (req, res, next) => {
       orderBy: {
         date: "asc",
       },
+      include: {
+        speakers: true,
+      },
     });
     res.status(200).json({ events: eventsData });
   } catch (err) {
