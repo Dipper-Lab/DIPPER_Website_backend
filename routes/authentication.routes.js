@@ -10,5 +10,8 @@ router.post("/register", authenticationController.postRegister);
 //post login
 router.post("/login", authenticationController.postLogin);
 
+// post forgot password
+router.post("/forgotpassword", authenticationController.postForgotPassword);
+
 //export router
 module.exports = router;

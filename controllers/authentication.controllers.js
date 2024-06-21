@@ -1,9 +1,19 @@
 const { PrismaClient } = require("@prisma/client"); //importing prisma client
 const jwt = require("jsonwebtoken"); //importing jsonwebtoken
 const bcrypt = require("bcrypt"); //importing bcrypt
+const nodemailer = require("nodemailer"); //importing nodemailer
 require("dotenv").config(); //import .env
 
 const prisma = new PrismaClient();
+
+//transporter for sending email
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: process.env.email_user,
+    pass: process.env.email_pass,
+  },
+});
 
 //post register
 exports.postRegister = async (req, res, next) => {
@@ -101,7 +111,55 @@ exports.postLogin = async (req, res, next) => {
 exports.postLogout = async (req, res, next) => {};
 
 //post forgot password
-exports.postForgotPassword = async (req, res, next) => {};
+exports.postForgotPassword = async (req, res, next) => {
+  try {
+    //find admin by id
+    const email = req.body.email;
+    const admin = await prisma.admin.findFirst({
+      where: {
+        email: email,
+      },
+    });
+    //if admin not found send a response message to the user that email does not exist
+    if (!admin) {
+      res.status(422).json({ message: "Email does not exist" });
+    }
+    // else send an email to the admin with a link to reset the password
+    else {
+      //sign a token with adnin id
+      const token = jwt.sign(
+        {
+          id: admin.id,
+        },
+        process.env.JWT_key,
+        {
+          expiresIn: "1h",
+        }
+      );
+      // reset password url
+      const resetPasswordUrl = `${process.env.production_base_url}/reset-password/${token}`;
+      //send email with token as param of the url
+      const mailOptions = {
+        from: `DIPPER Lab: <${process.env.email_user}>`,
+        to: admin.email,
+        replyTo: "noreply@noreply.com",
+        subject: "Password Reset",
+        text: `Please click on the following link to reset your password: ${resetPasswordUrl} \n If you did not request a password reset, please ignore this email. DO NOT REPLY.`,
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+          res.status(422).json({ message: error });
+        } else {
+          console.log("Email sent: " + info.response);
+          res.status(200).json({ message: "Email sent" });
+        }
+      });
+    }
+  } catch (err) {
+    res.status(422).json({ message: err });
+  }
+};
 
 //post reset password
 exports.postResetPassword = async (req, res, next) => {};
