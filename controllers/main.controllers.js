@@ -43,6 +43,10 @@ exports.getProjects = async (req, res, next) => {
       orderBy: {
         createdAt: "asc",
       },
+      include: {
+        contributors: true,
+        sponsors: true,
+      },
     });
     res.status(200).json({ projects: projectsData });
   } catch (err) {
