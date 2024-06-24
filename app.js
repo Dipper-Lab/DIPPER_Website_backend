@@ -1,14 +1,17 @@
 // local modules
-
-// core modules
 const adminRoutes = require("./routes/admin.routes"); //importing admin routes
 const mainRoutes = require("./routes/main.routes"); //importing main routes
 const authenticationRoutes = require("./routes/authentication.routes"); //importing authentication routes
 const checkAuth = require("./middlewares/check-auth");
 
+// core modules
+const fs = require("fs"); //importing file system
+const path = require("path"); //importing path
+
 // third-party modules
 const express = require("express"); //importing express
 const bodyParser = require("body-parser"); //importing body-parser
+const morgan = require("morgan"); //importing morgan
 
 // define app
 const app = express();
@@ -30,6 +33,13 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+//middleware to handle morgan
+app.use(
+  morgan("combined", {
+    stream: fs.WriteStream(path.join(__dirname, "access.log"), { flags: "a" }),
+  })
+);
 
 // middleware to use routes
 app.use(mainRoutes); //main routes

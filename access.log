@@ -1,0 +1,4 @@
+[0mGET /projects [32m200[0m 5109.237 ms - 2546[0m
+[0mGET /projects [32m200[0m 1871.363 ms - 2546[0m
+[0mGET /projects [32m200[0m 1547.852 ms - 2546[0m
+::1 - - [24/Jun/2024:12:33:47 +0000] "GET /projects HTTP/1.1" 200 2546 "-" "PostmanRuntime/7.39.0"
