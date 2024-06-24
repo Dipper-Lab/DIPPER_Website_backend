@@ -27,14 +27,14 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, token"
   );
-  // if (req.method === "PATCH" || "PUT" || "POST" || "DELETE" || "GET") {
-  res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
-  console.log(req.method);
-  // return res.status(200).json({
-  //   message: "Access granted",
-  // });
-  next();
-  // }
+  if (req.method == "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+    console.log(req.method);
+    // return res.status(200).json({
+    //   message: "Access granted",
+    // });
+    next();
+  }
 });
 
 //middleware to handle morgan
