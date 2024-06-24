@@ -32,7 +32,6 @@ app.use((req, res, next) => {
       "Access-Control-Allow-Methods",
       "PUT, POST, PATCH, OPTIONS, DELETE, GET"
     );
-    console.log(req.method);
     return res.status(200).json({
       message: "Access granted",
     });
@@ -43,14 +42,14 @@ app.use((req, res, next) => {
 //middleware to handle morgan
 app.use(
   morgan("combined", {
-    stream: fs.WriteStream(path.join(__dirname, "access.log"), { flags: "a" }),
+    // stream: fs.WriteStream(path.join(__dirname, "access.log"), { flags: "a" }),
   })
 );
 
 // middleware to use routes
 app.use(mainRoutes); //main routes
 app.use("/admin", checkAuth.verifyToken, adminRoutes); //admin routes
-app.use("/authentication", authenticationRoutes);
+app.use("/authentication", authenticationRoutes); //authentication routes
 
 // define port number
 const port = process.env.PORT || 3040;
