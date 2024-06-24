@@ -85,6 +85,9 @@ exports.getPublications = async (req, res, next) => {
       orderBy: {
         createdAt: "asc",
       },
+      include: {
+        authors: true,
+      },
     });
     res.status(200).json({ publications: publicationsData });
   } catch (err) {
