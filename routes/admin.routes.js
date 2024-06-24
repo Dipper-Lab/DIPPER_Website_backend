@@ -21,10 +21,10 @@ router.post("/addmember", adminController.postAddMember);
 // patch update members
 router.patch("/updatemember/:id", adminController.patchUpdateMember);
 
-// delete members
+// delete member
 router.delete(
-  "/delete/:model/:id",
-  imageRemover.removeSingleImage,
+  "/delete/member/:id",
+  // imageRemover.removeSingleImage,
   adminController.deleteMember
 );
 
@@ -36,8 +36,8 @@ router.patch("/updatepublication/:id", adminController.patchUpdatepublication);
 
 // delete publications
 router.delete(
-  "/delete/:model/:id",
-  imageRemover.removeSingleImage,
+  "/delete/publication/:id",
+  // imageRemover.removeSingleImage,
   adminController.deletepublication
 );
 
