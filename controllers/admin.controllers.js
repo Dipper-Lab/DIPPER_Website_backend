@@ -64,11 +64,9 @@ exports.deactivateMember = async (req, res, next) => {
         isActive: false,
       },
     });
-    res
-      .status(200)
-      .json({
-        message: `${deactivatedMember.fname} ${deactivatedMember.lname} has been successfully deactivated`,
-      });
+    res.status(200).json({
+      message: `${deactivatedMember.fname} ${deactivatedMember.lname} has been successfully deactivated`,
+    });
   } catch (err) {
     res.status(404).json({ message: err });
   }
@@ -325,11 +323,10 @@ exports.patchUpdateEvent = async (req, res, next) => {
       title: req.body.title,
       location: req.body.location,
       link: req.body.link,
-      date: new Date(req.body.date),
+      date: req.body.date,
       writeUp: req.body.writeUp,
       non_lab_speakers: req.body.nonLabSpeakers,
     };
-
     // update event
     const updatedEvent = await prisma.event.update({
       where: {
