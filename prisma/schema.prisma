@@ -25,6 +25,7 @@ model Member {
   academicPosition String
   image            String
   about            String
+  isActive         Boolean       @default(true)
   publications     Publication[]
   projects         Project[]
   events           Event[]
