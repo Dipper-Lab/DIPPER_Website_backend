@@ -51,6 +51,29 @@ exports.patchUpdateMember = async (req, res, next) => {
   }
 };
 
+// deactivate member
+exports.deactivateMember = async (req, res, next) => {
+  try {
+    // deactivate member by id
+    const id = req.params.id;
+    const deactivatedMember = await prisma.member.update({
+      where: {
+        id,
+      },
+      data: {
+        isActive: false,
+      },
+    });
+    res
+      .status(200)
+      .json({
+        message: `${deactivatedMember.fname} ${deactivatedMember.lname} has been successfully deactivated`,
+      });
+  } catch (err) {
+    res.status(404).json({ message: err });
+  }
+};
+
 // delete member
 exports.deleteMember = async (req, res, next) => {
   try {

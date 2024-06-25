@@ -21,6 +21,9 @@ router.post("/addmember", adminController.postAddMember);
 // patch update members
 router.patch("/updatemember/:id", adminController.patchUpdateMember);
 
+//deactivate member
+router.patch("/deactivatemember/:id", adminController.deactivateMember);
+
 // delete member
 router.delete(
   "/delete/member/:id",
