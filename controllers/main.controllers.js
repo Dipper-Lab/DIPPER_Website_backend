@@ -117,8 +117,17 @@ exports.getPublication = async (req, res, next) => {
 // get members
 exports.getMembers = async (req, res, next) => {
   try {
-    // fetch members
-    const membersData = await prisma.member.findMany({});
+    // fetch activemembers
+    const membersData = await prisma.member.findMany({
+      where: {
+        isActive: true,
+      },
+      include: {
+        projects: true,
+        publications: true,
+        events: true,
+      },
+    });
     res.status(200).json({ members: membersData });
   } catch (err) {
     console.log(err);
