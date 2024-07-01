@@ -4,6 +4,16 @@
 
 // third-party modules
 const { PrismaClient } = require("@prisma/client"); //importing prisma client
+const nodemailer = require("nodemailer"); //importing nodemailer
+
+//transporter for sending email
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: process.env.email_user,
+    pass: process.env.email_pass,
+  },
+});
 
 const prisma = new PrismaClient();
 
@@ -228,5 +238,28 @@ exports.getSponsors = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     res.status(422).json({ err });
+  }
+};
+
+// post message us
+exports.postMessage = async (req, res, next) => {
+  try {
+    // send email
+    const mailOptions = {
+      from: `<${req.body.firstName} ${req.body.lastName}>`,
+      to: process.env.email_user,
+      replyTo: req.body.email,
+      subject: req.body.subject,
+      text: req.body.message,
+    };
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        res.status(422).json({ message: err });
+      } else {
+        res.status(200).json({ message: "Message Sent" });
+      }
+    });
+  } catch (err) {
+    console.log(err);
   }
 };
